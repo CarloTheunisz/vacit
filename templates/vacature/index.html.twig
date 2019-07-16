@@ -23,18 +23,22 @@
 <script type="text/javascript">
     $(document).ready(function() {        
         $("#divlink{{ d.id }}").mouseover(function() {
+            $(this).css("color", "white");
             $("#spanlink{{ d.id }}").css("color", "white");
         });
 
         $("#divlink{{ d.id }}").mouseout(function() {
+            $(this).css("color", "#dddddd");
             $("#spanlink{{ d.id }}").css("color", "#dddddd");
         });
 
         $("#spanlink{{ d.id }}").mouseover(function() {
+            $(this).css("color", "white");
             $("#divlink{{ d.id }}").css("color", "white");
         });
 
         $("#spanlink{{ d.id }}").mouseout(function() {
+            $(this).css("color", "#dddddd");
             $("#divlink{{ d.id }}").css("color", "#dddddd");
         });
     })
