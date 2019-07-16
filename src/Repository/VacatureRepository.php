@@ -35,6 +35,34 @@ class VacatureRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Functie: findVacaturesFromUser
+     * Doel:    vind alle vacatures van een specifieke werkgever en ordert ze
+     */
+    public function findVacaturesFromUser($user) {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.user = :val')
+            ->setParameter('val', $user->getId())
+            ->orderBy('v.datum DESC, v.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Functie: getAndereVacatures
+     * Doel:    vind alle vacatures van een specifieke werkgever behalve de meegegeven vacature en ordert ze
+     */
+    public function getAndereVacatures($vacature) {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.user = :val')
+            ->setParameter('val', $vacature->getUser())
+            ->andWhere('v.id != :self')
+            ->setParameter('self', $vacature->getId())
+            ->orderBy('v.datum DESC, v.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Vacature[] Returns an array of Vacature objects
     //  */

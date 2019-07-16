@@ -71,12 +71,7 @@ class VacatureService {
      * Doel:    vind alle vacatures van een specifieke werkgever en ordert ze
      */
     public function findVacaturesFromUser($user) {
-        return $this->rep->createQueryBuilder('v')
-            ->andWhere('v.user = :val')
-            ->setParameter('val', $user->getId())
-            ->orderBy('v.datum DESC, v.id', 'DESC')
-            ->getQuery()
-            ->getResult();
+        return $this->rep->findVacaturesFromUser($user);
     }
 
     /**
@@ -84,14 +79,7 @@ class VacatureService {
      * Doel:    vind alle vacatures van een specifieke werkgever behalve de meegegeven vacature en ordert ze
      */
     public function getAndereVacatures($vacature) {
-        return $this->rep->createQueryBuilder('v')
-            ->andWhere('v.user = :val')
-            ->setParameter('val', $vacature->getUser())
-            ->andWhere('v.id != :self')
-            ->setParameter('self', $vacature->getId())
-            ->orderBy('v.datum DESC, v.id', 'DESC')
-            ->getQuery()
-            ->getResult();
+        return $this->rep->getAndereVacatures($vacature);
     }
 
     /**
