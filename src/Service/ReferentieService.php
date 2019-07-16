@@ -49,7 +49,7 @@ class ReferentieService {
      * Doel:    vind alle plaatsen uit de referentietabel
      */
     public function findPlaatsen() {
-        return $this->findAllFromDomain('P');
+        return $this->rep->findAllFromDomain('P');
     }
 
     /**
@@ -57,18 +57,6 @@ class ReferentieService {
      * Doel:    vind alle niveau's uit de referentietabel
      */
     public function findNiveaus() {
-        return $this->findAllFromDomain('N');
-    }
-
-    /**
-     * Functie: findAllFromDomain
-     * Doel:    vind alles uit de referentietabel behorende bij een specifiek domein
-     */
-    private function findAllFromDomain($domain) {
-        return $this->rep->createQueryBuilder('r')
-            ->andWhere('r.domein = :val')
-            ->setParameter('val', $domain)
-            ->getQuery()
-            ->getResult();
+        return $this->rep->findAllFromDomain('N');
     }
 }

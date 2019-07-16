@@ -19,6 +19,34 @@ class ReferentieRepository extends ServiceEntityRepository
         parent::__construct($registry, Referentie::class);
     }
 
+    /**
+     * Functie: findPlaatsen
+     * Doel:    vind alle plaatsen uit de referentietabel
+     */
+    public function findPlaatsen() {
+        return $this->findAllFromDomain('P');
+    }
+
+    /**
+     * Functie: findNiveaus
+     * Doel:    vind alle niveau's uit de referentietabel
+     */
+    public function findNiveaus() {
+        return $this->findAllFromDomain('N');
+    }
+
+    /**
+     * Functie: findAllFromDomain
+     * Doel:    vind alles uit de referentietabel behorende bij een specifiek domein
+     */
+    private function findAllFromDomain($domain) {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.domein = :val')
+            ->setParameter('val', $domain)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Referentie[] Returns an array of Referentie objects
     //  */
