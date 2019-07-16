@@ -14,7 +14,7 @@
         </div>
         <div class="cell auto">
             <div class="small">{{ d.datum|date('d-m-Y') }}</div>
-            <div class="orange larger">{{ d.titel }} voor {{ d.user.voornaam }}</div>
+            <div class="orange larger"><a href="{{ path("detail", {id: d.id}) }}">{{ d.titel }} voor {{ d.user.voornaam }}</a></div>
             <div class="no-overflow smaller"><i>{{ d.omschrijving }}</i></div>
         </div>
         <div class="cell small-2 medium-1" align="right">
