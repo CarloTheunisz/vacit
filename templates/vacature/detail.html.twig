@@ -44,7 +44,9 @@
             <form action="{{ path("sollicitaties") }}" method="POST">
                 <input type="hidden" id="userId" name="userId" value="{% if user is not empty %}{{ user.id }}{% endif %}">
                 <input type="hidden" id="vacId" name="vacId" value="{{ data.id }}">
-                <input type="submit" class="button bebase larger" value={% if isGesolliciteerd %}"Trek sollicitatie in"{% else %}"Solliciteer direct"{% endif %} {% if user is empty %}disabled="disabled"{% endif %}>
+                {% if is_granted('ROLE_CANDIDATE') %}
+                    <input type="submit" class="button bebase larger" value={% if isGesolliciteerd %}"Trek sollicitatie in"{% else %}"Solliciteer direct"{% endif %} {% if user is empty %}disabled="disabled"{% endif %}>
+                {% endif %}
             </form>
             <div class="bebase">Meer vacatures van <a href="{{ path('zieProfiel', {id: data.user.id}) }}">{{ data.user.voornaam }}</a></div>
             <table id="andereVacatures" class="hover row-border left">
