@@ -1,0 +1,22 @@
+<div class="top-bar">
+    <a href="{{ path('homepage') }}"><img src="{{ asset("img/vacit-logo-white.png") }}" width="167px"></a>
+    <ul class="menu vertical medium-horizontal hide-for-small-only top-links" id="menu" align="right">
+        {% if not is_granted("ROLE_USER") %}
+            <li><a href="{{ path('fos_user_registration_register') }}">REGISTREREN</a></li>
+            <li><a href="{{ path('fos_user_security_login') }}">INLOGGEN</a></li>
+        {% endif %}
+        {% if is_granted("ROLE_USER") %}
+            <li><a href="{{ path('profiel') }}">MIJN PROFIEL</a></li>
+            <li><a href="{{ path('sollicitaties') }}">MIJN SOLLICITATIES</a></li>
+            <li><a href="{{ path('fos_user_security_logout') }}">UITLOGGEN</a></li>
+        {% endif %}
+    </ul>
+    <ul class="menu align-right show-for-small-only top-links">
+        <li>
+            <a id="expand-menu"><i class="fas fa-bars fa-5x"></i></a>
+        </li>
+    </ul>
+</div>
+<div class="shape-shadow">
+    <div class="shape"></div>
+</div>

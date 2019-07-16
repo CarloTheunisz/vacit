@@ -1,0 +1,15 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% block title %}Registratie gelukt{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+    {% if targetUrl %}
+    <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+    {% endif %}
+
+    <div><a type="button" class="button bebase larger" href="{{ path("homepage") }}">Terug naar hoofdpagina</a></div>
+    <div><a type="button" class="button bebase larger" href="{{ path("profiel") }}">Bewerk profiel</a></div>
+{% endblock fos_user_content %}

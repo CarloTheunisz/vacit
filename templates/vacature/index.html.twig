@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Homepagina{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function() {        
+        $(".vegas").vegas({
+            slides: [
+                {src: '{{ path("homepage") }}img/vac{{ data[0].id }}.png'},
+                {src: '{{ path("homepage") }}img/vac{{ data[1].id }}.png'},
+                {src: '{{ path("homepage") }}img/vac{{ data[2].id }}.png'},
+                {src: '{{ path("homepage") }}img/vac{{ data[3].id }}.png'},
+                {src: '{{ path("homepage") }}img/vac{{ data[4].id }}.png'}
+            ],
+            transition: 'slideLeft',
+            timer: false
+        });
+    })
+</script>
+
+{% for d in data|slice(0,5) %}
+<script type="text/javascript">
+    $(document).ready(function() {        
+        $("#divlink{{ d.id }}").mouseover(function() {
+            $("#spanlink{{ d.id }}").css("color", "white");
+        });
+
+        $("#divlink{{ d.id }}").mouseout(function() {
+            $("#spanlink{{ d.id }}").css("color", "#dddddd");
+        });
+
+        $("#spanlink{{ d.id }}").mouseover(function() {
+            $("#divlink{{ d.id }}").css("color", "white");
+        });
+
+        $("#spanlink{{ d.id }}").mouseout(function() {
+            $("#divlink{{ d.id }}").css("color", "#dddddd");
+        });
+    })
+</script>
+{% endfor %}
+{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        background-color: #F15A24;
+    }
+</style>
+<div class="grid-x grid-margin-x">
+    <div class="cell hide-for-small-only medium-3">
+        <div class="vegas"></div>
+    </div>
+    <div class="cell auto">
+        {% for d in data|slice(0,5) %}
+            <div class="grid-x vacature-row">
+                <div class="cell small-4 large-2">
+                    <div class ="clip-container">
+                        <div class="clipped">
+                            <span class="{{ d.icoon }}"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell auto">
+                    <div class="small">{{ d.datum|date('d/m/Y') }}</div>
+                    <a href="{{ path("detail", {id: d.id}) }}"><div class="index-link larger" id="divlink{{ d.id }}">{{ d.titel }} voor {{ d.user.voornaam }}</div></a>
+                    <div class="no-overflow smaller"><i>{{ d.omschrijving }}</i></div>
+                </div>
+                <div class="cell small-2 large-1" align="right">
+                    <a href="{{ path("detail", {id: d.id}) }}" class="detail-link"><span class="fas fa-arrow-right" id="spanlink{{ d.id }}"></span></a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

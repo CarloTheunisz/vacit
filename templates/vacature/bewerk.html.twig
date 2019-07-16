@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bewerk vacature{% endblock %}
+
+{% block body %}
+{% if (not user) or (not is_granted('ROLE_EMPLOYER')) or (user.id != form.vars.value.user.id) %}
+    <p>Vacatures kunnen alleen worden bewerkt door ingelogde werkgevers. De werkgever kan alleen hun eigen vacatures bewerken.</p>
+{% endif %}
+<div class="grid-x grid-margin-x">
+    <div class="cell small-4 medium-3">
+        
+    </div>
+    <div class="cell auto">
+        {% if (user and is_granted('ROLE_EMPLOYER') and user.id == form.vars.value.user.id) or (is_granted('ROLE_ADMIN')) %}
+            <div class="bebase orange largest">Bewerk vacature</div>
+            {{ form(form) }}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

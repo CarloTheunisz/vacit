@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mijn profiel{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.richtext').richText({
+            underline: false,
+            leftAlign: false,
+            centerAlign: false,
+            rightAlign: false,
+            justify: false,
+            ol: false,
+            ul: false,
+            heading: false,
+            fonts: false,
+            fontColor: false,
+            fontSize: false,
+            imageUpload: false,
+            fileUpload: false,
+            videoEmbed: false,
+            urls: false,
+            table: false,
+            removeStyles: false,
+            code: false
+        });
+
+        $("#candidate_form_afbeelding").change(function(e) {
+            for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+                var file = e.originalEvent.srcElement.files[i];
+
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                    $(".foto").attr('src', reader.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        })
+    })
+</script>
+{% endblock %}
+
+{% block body %}
+{% if data is defined %}
+    <form name="form" method="POST" enctype="multipart/form-data">
+        <div class="grid-x grid-margin-x">
+            <div class="cell small-4 medium-3">
+                {% if is_granted('ROLE_EMPLOYER') %}
+                    <img src="{{ data.afbeelding }}">
+                {% endif %}
+                {% if is_granted('ROLE_CANDIDATE') %}
+                    <label for="candidate_form_afbeelding" class="required">
+                        <div class="clip-container">
+                            <div class="clipped pointer">
+                                <img src="{{ asset('uploads/foto/' ~ data.afbeelding) }}" class="foto">
+                            </div>
+                        </div>
+                    </label>
+                {% endif %}
+                {{ form_widget(form.afbeelding) }}
+                {{ form_help(form.afbeelding) }}
+                {{ form_errors(form.afbeelding) }}
+            </div>
+            <div class="cell auto">
+                <div class="bebase orange largest">Mijn profiel</div>
+                {% if is_granted('ROLE_CANDIDATE') %}
+                    <div class="grid-x grid-margin-x">
+                        <div class="cell small-4">
+                            {{ form_row(form.voornaam) }}
+                        </div>
+                        <div class="cell auto">
+                            {{ form_row(form.achternaam) }}
+                        </div>
+                    </div>
+                    <div class="grid-x grid-margin-x">
+                        <div class="cell small-4">
+                            {{ form_row(form.geboortedatum) }}
+                        </div>
+                        <div class="cell auto">
+                            {{ form_row(form.telefoonnummer) }}
+                        </div>
+                    </div>
+                    {{ form_row(form.email) }}
+                {% endif %}
+                {% if is_granted('ROLE_EMPLOYER') %}
+                    {{ form_row(form.voornaam) }}
+                    {{ form_row(form.sector) }}
+                    {{ form_row(form.contactpersoon)}}
+                    <div class="grid-x grid-margin-x">
+                        <div class="cell small-6 medium-4">
+                            {{ form_row(form.email) }}
+                        </div>
+                        <div class="cell auto">
+                            {{ form_row(form.telefoonnummer) }}
+                        </div>
+                    </div>
+                {% endif %}
+                {{ form_row(form.adres) }}
+                <div class="grid-x grid-margin-x">
+                    <div class="cell small-6 medium-4">
+                        {{ form_row(form.postcode) }}
+                    </div>
+                    <div class="cell auto">
+                        {{ form_row(form.plaats) }}
+                    </div>
+                </div>
+                <div class="omschrijving">
+                    {{ form_row(form.omschrijving) }}
+                </div>
+                {% if is_granted('ROLE_CANDIDATE') %}
+                <div class="grid-x grid-margin-x">
+                    <div class="cell small-6">
+                        <label for="candidate_form_cv" class="required pointer">
+                            <span class="fas fa-file-pdf fa-2x orange"></span> <b>CV {{form.vars.value.voornaam|upper}} {{form.vars.value.achternaam|upper}}.PDF</b>
+                        </label>
+                        {{ form_widget(form.cv) }}
+                        {{ form_help(form.cv) }}
+                        {{ form_errors(form.cv) }}
+                    </div>
+                    <div class="cell auto" align="right">
+                        {{ form_row(form.save) }}
+                    </div>
+                </div>
+                {% endif %}
+                {% if is_granted('ROLE_EMPLOYER') %}
+                    {{ form_row(form.save) }}
+                {% endif %}
+                {{ form_row(form._token) }}
+                <br />
+            </div>
+        </div>
+    </form>
+{% else %}
+    Alleen ingelogde gebruikers kunnen hun eigen profiel zien en bewerken. Gelieve te registreren of in te loggen.
+{% endif %}
+{% endblock %}

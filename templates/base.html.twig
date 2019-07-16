@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=0.75">
+        <title>Vac!t :: {% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/css/foundation.min.css" integrity="sha256-1mcRjtAxlSjp6XJBgrBeeCORfBp/ppyX4tsvpQVCcpA= sha384-b5S5X654rX3Wo6z5/hnQ4GBmKuIJKMPwrJXn52ypjztlnDK2w9+9hSMBz/asy9Gw sha512-M1VveR2JGzpgWHb0elGqPTltHK3xbvu3Brgjfg4cg5ZNtyyApxw/45yHYsZ/rCVbfoO5MSZxB241wWq642jLtA==" crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.0.1/js/vendor/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js" integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw==" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vegas/2.4.4/vegas.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vegas/2.4.4/vegas.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">  
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+        <link rel="stylesheet" href="{{ asset('../src/richtext.min.css') }}">
+        <script src="{{ asset('../src/jquery.richtext.js') }}"></script>
+        <link rel="stylesheet" href="{{ asset('fonts/stylesheet.css') }}" type="text/css" charset="utf-8" />
+        <script type="text/javascript">
+            $(function() {
+                $('#expand-menu').click(function() {
+                    $(this).slideUp(400);
+                    $('#menu').removeClass("hide-for-small-only");
+                    $('#menu').hide();
+                    $('#menu').slideToggle(400);
+                })
+            })
+        </script>
+        {% block stylesheets %}
+        <style>
+            #page-container {
+                position: relative;
+                min-height: 100vh;
+            }
+            .top-bar, .bottom-bar {
+                background-color: #333333;
+                color: white;
+                position: relative;
+                padding: 8px;
+            }
+            .bottom-bar {
+                bottom: 0px;
+                position: absolute;
+                width: 100%;
+                height: 116px;
+            }
+            .top-links {
+                background-color: #333333;
+                position: absolute;
+                bottom: 8px;
+                right: 8px;
+            }
+            .top-bar ul {
+                background-color: #333333;
+            }
+            input:not([type=submit]), select, textarea, .omschrijving {
+                border: 0 !important;
+                border-bottom: #F15A24 solid 3px !important;
+                box-shadow: 0px 0px 0px 0px !important;
+            }
+            input[type=text], input[type=date], select {
+                font-size: larger;
+                line-height: normal;
+                padding-left: 3px;
+            }
+            input[type=checkbox] {
+                margin: 0;
+                vertical-align: text-bottom;
+            }
+            a, .orange {
+                color:#F15A24;
+            }
+            .wrapper { 
+                margin: 1em auto 0 auto;
+                width: 80%; 
+                font: 18px/1.5 sans-serif;
+                padding-bottom: 136px;
+            }
+            .button {
+                color:#F15A24 !important;
+                background-color: white;
+                padding:0;
+                border:0;
+            }
+            .fab, [class*="devicon"], .top-links li {
+                background-color: #333333;
+                color: white;
+                line-height: unset;
+            }
+            .icon {
+                font-size: 64px;
+                background-color: #333333;
+                margin-bottom: 20px;
+            }
+            .foto {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                height: inherit;
+            }
+            .bebase {
+                font-family: 'bebas_neueregular', Arial, sans-serif;
+            }
+            .small {
+                font-size: small;
+            }
+            .smaller {
+                font-size: smaller;
+            }
+            .larger {
+                font-size: larger;
+            }
+            .largest {
+                font-size: xx-large;
+            }
+            .right-float {
+                float: right;
+            }
+            .no-display {
+                display: none;
+            }
+            .gray-text {
+                color: #888888;
+            }
+            .pad-for-space {
+                padding-bottom: 40px;
+            }
+            .left {
+                text-align: left;
+            }
+            .top-links li a, .index-link { 
+                color: #dddddd;
+            }
+            .no-overflow {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
+            .detail-link {
+                color: #dddddd;
+                font-size: 64px;
+            }
+            .detail-link:hover, .top-links li a:hover, .index-link:hover {
+                color: white;
+            }
+            .clip-container {
+                position: relative;
+                width: 100px;
+                height:100px;
+                margin: 0 auto;
+            }
+            .clipped {
+                position: absolute;
+                width:100%;
+                height:100%;
+                background:#333333;
+                clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+                color:white;
+                font-size: 64px;
+                text-align: center;
+            }
+            .shape {
+                clip-path: polygon(0 0, 100% 0, 100% 33%, 0% 100%);
+                height: 20px;
+                background-color: #F15A24;
+            }
+            .shape-shadow {
+                filter: drop-shadow(0px 0px 10px #333333);
+            }
+            .shape-bottom {
+                clip-path: polygon(0 67%, 100% 0, 100% 100%, 0% 100%);
+                height: 20px;
+                background-color:#F15A24;
+            }
+            .shape-shadow-bottom {
+                position: absolute;
+                bottom: 116px;
+                height: 20px;
+                width: -webkit-fill-available;
+            }
+            .pointer {
+                cursor: pointer;
+            }
+            .vegas {
+                width: 100%;
+                padding-top: 100%;
+            }
+            .vacature-row {
+                margin-bottom: 18px;
+            }
+            .fa-file-pdf {
+                vertical-align: bottom;
+            }
+            .spacer {
+                height: 70px;
+            }
+            table.dataTable thead th, table.dataTable thead td,
+            table.dataTable tfoot th, table.dataTable tfoot td {
+                border-bottom: 0;
+                border-top: 0;
+            }
+            table.dataTable thead, thead {
+                background-color: white;
+                border: 0;
+            }
+            table.dataTable.row-border tbody th {
+                border: 0;
+                border-bottom: 1px solid #333333;
+            }
+            table.dataTable.no-footer {
+                border: 0;
+            }
+            tbody, .richText {
+                font-size: smaller;
+                color: #888888;
+            }
+            table.dataTable thead th, table.dataTable tbody th, thead th, tbody th {
+                padding-left: 0;
+            }
+            table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTable thead .sorting_desc {
+                background-image: none;
+            }
+            @media (max-width: 1023px) {
+                .bottom-info-address {
+                    position: absolute;
+                    bottom: 58px;
+                }
+                .bottom-info-privacy {
+                    position: absolute;
+                    bottom: 10px;
+                }
+                .small-right {
+                    float: right;
+                }
+            }
+            @media (min-width: 1024px) {
+                .bottom-info-address {
+                    position: absolute;
+                    width: 200px;
+                    bottom: 27px;
+                    left: 250px;
+                }
+                .bottom-info-privacy {
+                    position: absolute;
+                    width: 200px;
+                    bottom: 27px;
+                    left: 500px;
+                }
+            }
+        </style>
+        {% endblock %}
+        {% block javascript %}
+        {% endblock %}
+    </head>
+    <body>
+        <div id="page-container">
+            {% include 'base/header.html.twig' %}
+            <div class="wrapper">
+                {% block body %}{% endblock %}
+                <div class="spacer"></div>
+            </div>
+            {% include 'base/footer.html.twig' %}
+        </div>
+    </body>
+</html>

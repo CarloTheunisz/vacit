@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vacature detail{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#andereVacatures").DataTable( {
+            "paging": false,
+            "info": false,
+            "searching": false,
+            "responsive": true,
+            "language": {"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Dutch.json"}
+        });
+    })
+</script>
+{% endblock %}
+
+{% block body %}
+{% if data %}
+    <div class="grid-x grid-margin-x">
+        <div class="cell small-4 medium-3">
+            <div class ="clip-container">
+                <div class="clipped">
+                    <span class="{{ data.icoon }}"></span>
+                </div>
+            </div>
+            <div>
+                <img src="{{ data.user.afbeelding }}">
+            </div>
+        </div>
+        <div class="cell auto">
+            <div class="small">{{ data.datum|date('d-m-Y') }}</div>
+            <div class="largest">{{ data.titel }} voor {{ data.user.voornaam }}</div>
+            <div class="grid-x grid-margin-x bebase">
+                <div class="cell small-6">
+                    <span class="orange">Niveau:</span> {{ data.niveau.omschrijving }}
+                </div>
+                <div class="cell auto" align="right">
+                    <span class="fas fa-map-marker-alt orange"></span> {{ data.plaats.omschrijving }}
+                </div>
+            </div>
+            <div class="small gray-text pad-for-space"><i>{{ data.omschrijving }}</i></div>
+            <form action="{{ path("sollicitaties") }}" method="POST">
+                <input type="hidden" id="userId" name="userId" value="{% if user is not empty %}{{ user.id }}{% endif %}">
+                <input type="hidden" id="vacId" name="vacId" value="{{ data.id }}">
+                <input type="submit" class="button bebase larger" value={% if isGesolliciteerd %}"Trek sollicitatie in"{% else %}"Solliciteer direct"{% endif %} {% if user is empty %}disabled="disabled"{% endif %}>
+            </form>
+            <div class="bebase">Meer vacatures van <a href="{{ path('zieProfiel', {id: data.user.id}) }}">{{ data.user.voornaam }}</a></div>
+            <table id="andereVacatures" class="hover row-border left">
+                <thead>
+                    <tr>
+                        <th>DATUM</th>
+                        <th>VACATURE</th>
+                        <th>NIVEAU</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vacature in andereVacatures %}
+                        <tr>
+                            <th>{{ vacature.datum|date('d-m-Y') }}</th>
+                            <th><a href="{{ path('detail', {id: vacature.id}) }}">{{ vacature.titel }}</a></th>
+                            <th>{{ vacature.niveau.omschrijving }}</th>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% else %}
+    Deze vacature heeft nooit bestaan of bestaat niet meer.
+{% endif %}
+{% endblock %}

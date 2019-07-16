@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Alle vacatures{% endblock %}
+
+{% block body %}
+    {% for d in data %}
+    <div class="grid-x vacature-row">
+        <div class="cell small-4 medium-3 large-2">
+            <div class ="clip-container">
+                <div class="clipped">
+                    <span class="{{ d.icoon }}"></span>
+                </div>
+            </div>
+        </div>
+        <div class="cell auto">
+            <div class="small">{{ d.datum|date('d-m-Y') }}</div>
+            <div class="orange larger">{{ d.titel }} voor {{ d.user.voornaam }}</div>
+            <div class="no-overflow smaller"><i>{{ d.omschrijving }}</i></div>
+        </div>
+        <div class="cell small-2 medium-1" align="right">
+            <a href="{{ path("detail", {id: d.id}) }}" class="detail-link button"><span class="fas fa-arrow-right"></span></a>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}

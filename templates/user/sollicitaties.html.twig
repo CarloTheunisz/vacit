@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mijn sollicitaties{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("table.hover").DataTable( {
+            "paging": false,
+            "info": false,
+            "searching": false,
+            "responsive": true,
+            "language": {"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Dutch.json"},
+            "AutoWidth": false,
+            "columnDefs": [
+            { "width": "25%", "targets": [0,1,2] },
+            { "className": "text-center", "targets": 2 } ]
+        });
+
+        $("input:checkbox").change(function() {
+            var isChecked = $(this).is(":checked") ? 1 : 0;
+            $.ajax({
+                url: '{{ path("uitnodigen") }}',
+                type: 'POST',
+                data: { sId: $(this).attr("name"), isChecked: isChecked },
+                success: function() {
+
+                }
+            });
+        });
+    })
+</script>
+{% endblock %}
+
+{% block body %}
+{% if data is defined %}
+    <div class="grid-x grid-margin-x">
+        <div class="cell small-4 medium-3">
+            {% if is_granted('ROLE_EMPLOYER') %}
+                <img src="{{ data.afbeelding }}"><br />
+            {% endif %}
+            {% if is_granted('ROLE_CANDIDATE') %}
+                <div class="clip-container">
+                    <div class="clipped">
+                        <img src="{{ asset('uploads/foto/' ~ data.afbeelding) }}" class="foto">
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="cell auto">
+            <div class="bebase orange largest">Mijn sollicitaties</div>
+            {% if is_granted('ROLE_CANDIDATE') %}
+                <table id="sollicitaties" class="hover row-border left">
+                    <thead>
+                        <tr>
+                            <th>DATUM</th>
+                            <th>VACATURE</th>
+                            <th>BEDRIJF</th>
+                            <th>UITGENODIGD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in sollicitaties %}
+                            <tr>
+                                <th>{{ s.datum|date("d/m/Y") }}</th>
+                                <th><a href="{{ path('detail', {id: s.vacature.id}) }}">{{ s.vacature.titel }}</a></th>
+                                <th>{{ s.vacature.user.voornaam }}</th>
+                                <th>{{ s.uitgenodigd|showUitgenodigd }}</th>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+            {% if is_granted('ROLE_EMPLOYER') %}
+                {% for v in vacatures %}
+                    <div class="bebase orange">{{ v.titel }}</div>
+                    {% set i = (i|default(-1)) + 1 %}
+                    <table id="sollicitaties" class="hover row-border left">
+                            <thead>
+                                <tr>
+                                    <th>DATUM</th>
+                                    <th>NAAM</th>
+                                    <th>UITNODIGEN</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for s in sollicitaties[i] %}
+                                    <tr>
+                                        <th>{{ s.datum|date("d/m/Y") }}</th>
+                                        <th><a href={{ path("zieProfiel", {id: s.user.id}) }}>{{ s.user.voornaam }} {{ s.user.achternaam }}</a></th>
+                                        <th><input type="checkbox" name="{{ s.id }}" {% if s.uitgenodigd %}checked{% endif %}></th>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+    Alleen ingelogde gebruikers kunnen hun eigen sollicitaties bekijken. Gelieve te registreren of in te loggen.
+{% endif %}
+{% endblock %}

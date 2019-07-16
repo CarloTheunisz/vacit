@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{% if data %}
+    Profiel van {{ data.voornaam }}
+{% else %}
+    Onbekend profiel
+{% endif %}
+{% endblock %}
+
+{% block body %}
+{% if data %}
+    <div class="grid-x grid-margin-x">
+        <div class="cell small-4 medium-3">
+            {% for role in data.roles %} 
+                {% if role == 'ROLE_CANDIDATE' %}
+                    <div class="clip-container">
+                        <div class="clipped">
+                            <img src="{{ '../uploads/foto/' ~ data.afbeelding }}" class="foto">
+                        </div>
+                    </div>
+                {% endif %}
+                {% if role == 'ROLE_EMPLOYER' %}
+                    <img src="{{ data.afbeelding }}">
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="cell auto">
+            <div class="bebase largest"><span class="orange">Profiel van</span> {{ data.voornaam }} {{ data.achternaam }}</div>
+            {% if 'ROLE_CANDIDATE' in data.roles %}
+                <div class="grid-x grid-margin-x">
+                    <div class="cell small-6">
+                        <div><label>Voornaam:</label> {{ data.voornaam }}</div>
+                    </div>
+                    <div class="cell small-6">
+                        <div><label>Achternaam:</label> {{ data.achternaam }}</div>
+                    </div>
+                </div>
+                <div><label>Geboortedatum:</label> {{ data.geboortedatum|date('d-m-Y') }}</div>
+            {% endif %}
+            {% if 'ROLE_EMPLOYER' in data.roles %}
+                <div><label>Sector:</label> {{ data.sector }}</div>
+                <div><label>Contactpersoon:</label> {{ data.contactpersoon }}</div>
+            {% endif %}
+            <div class="grid-x grid-margin-x">
+                <div class="cell large-6">
+                    <div><label>E-mail:</label> {{ data.email }}</div>
+                </div>
+                <div class="cell large-6">
+                    <div><label>Telefoonnummer:</label> {{ data.telefoonnummer }}</div>
+                </div>
+            </div>
+            <div><label>Adres:</label> {{ data.adres }}</div>
+            <div class="grid-x grid-margin-x">
+                <div class="cell small-6">
+                    <div><label>Postcode:</label> {{ data.postcode }}</div>
+                </div>
+                <div class="cell small-6">
+                    {% if data.plaats %}
+                    <div><label>Plaats:</label> {{ data.plaats.omschrijving }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            <div><label>Omschrijving:</label> {{ data.omschrijving|raw }}</div>
+            {% if 'ROLE_CANDIDATE' in data.roles %}
+                <div><label>Download CV:</label> <a href="{{ '../uploads/cv/' ~ data.cv }}"><span class="fas fa-file-pdf fa-2x"></span></a></div>
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+    Dit profiel heeft nooit bestaan of bestaat niet meer.
+{% endif %}
+{% endblock %}

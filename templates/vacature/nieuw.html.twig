@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nieuwe vacature{% endblock %}
+
+{% block body %}
+{% if (not user) or (not is_granted('ROLE_EMPLOYER'))%}
+    <p>Vacatures kunnen alleen worden toegevoegd door ingelogde werkgevers.</p>
+{% endif %}
+<div class="grid-x grid-margin-x">
+    <div class="cell small-4 medium-3">
+        
+    </div>
+    <div class="cell auto">
+        {% if user and is_granted('ROLE_EMPLOYER')%}
+            <div class="bebase orange largest">Nieuwe vacature</div>
+            {{ form(form) }}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
