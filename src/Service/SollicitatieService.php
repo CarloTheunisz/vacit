@@ -70,12 +70,7 @@ class SollicitatieService {
      * Doel:    vind alle sollicitaties van een specifieke gebruiker
      */
     public function findSollicitatiesFromUser($user) {
-        return $this->rep->createQueryBuilder('s')
-            ->andWhere('s.user = :val')
-            ->setParameter('val', $user->getId())
-            ->orderBy('s.datum DESC, s.id', 'DESC')
-            ->getQuery()
-            ->getResult();
+        return $this->rep->findSollicitatiesFromUser($user);
     }
 
     /**
@@ -83,12 +78,7 @@ class SollicitatieService {
      * Doel:    vind alle sollicitatie die horen bij een specifieke vacature
      */
     public function findSollicitatiesFromVacature($vacature) {
-        return $this->rep->createQueryBuilder('s')
-            ->andWhere('s.vacature = :val')
-            ->setParameter('val', $vacature->getId())
-            ->orderBy('s.datum DESC, s.id', 'DESC')
-            ->getQuery()
-            ->getResult();
+        return $this->rep->findSollicitatiesFromVacature($vacature);
     }
 
     /**

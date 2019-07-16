@@ -19,6 +19,32 @@ class SollicitatieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sollicitatie::class);
     }
 
+    /**
+     * Functie: findSollicitatiesFromUser
+     * Doel:    vind alle sollicitaties van een specifieke gebruiker
+     */
+    public function findSollicitatiesFromUser($user) {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.user = :val')
+            ->setParameter('val', $user->getId())
+            ->orderBy('s.datum DESC, s.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Functie: findSollicitatiesFromVacature
+     * Doel:    vind alle sollicitatie die horen bij een specifieke vacature
+     */
+    public function findSollicitatiesFromVacature($vacature) {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.vacature = :val')
+            ->setParameter('val', $vacature->getId())
+            ->orderBy('s.datum DESC, s.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Sollicitatie[] Returns an array of Sollicitatie objects
     //  */
