@@ -12,6 +12,7 @@ group:
 security:
     login:
         username: Gebruikersnaam
+        username_email: Gebruikersnaam of e-mailadres
         password: Wachtwoord
         remember_me: 'Onthoud mijn gegevens'
         submit: Inloggen
